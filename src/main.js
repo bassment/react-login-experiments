@@ -4,7 +4,7 @@ import './globals.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from 'react-router';
-import createHashHistory from 'history/lib/createHashHistory';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 import routes from './routes';
 import attachFastClick from 'fastclick';
 
@@ -14,9 +14,9 @@ attachFastClick.attach(document.body);
 // Expose globally
 window.React = React;
 
-// only for GitHub pages
+// createHashHistory only for GitHub pages
 // do prefer createBrowserHistory
-const history = createHashHistory();
+const history = createBrowserHistory();
 
 ReactDOM.render(
   <Router

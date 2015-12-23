@@ -3,5 +3,5 @@
 }
 
 .counter {
-  composes: green from "../colors.css"
+  composes: blue from "../colors.css"
 }
