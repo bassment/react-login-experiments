@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import style from './Counter.css';
 
+const RaisedButton = require('material-ui/lib/raised-button');
+
 const Counter = React.createClass({
 
   propTypes: __DEV__ && {
@@ -21,9 +23,7 @@ const Counter = React.createClass({
       <div className={style.counter}>
         <h1>Count: {count}</h1>
         <p>Click the button to increment the counter</p>
-        <button className={style.button} onClick={this.increment}>
-          Increment
-        </button>
+        <RaisedButton label="Increment" onClick={this.increment} />
       </div>
     );
   }
