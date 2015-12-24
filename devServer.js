@@ -25,6 +25,12 @@ var middleware = webpackMiddleware(compiler, {
 
 app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
+app.use(express.static('public'));
+
+app.get('api', function (req, res) {
+  res.send('API express route...');
+});
+
 app.get('*', function response(req, res) {
   res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')));
   res.end();

@@ -40,11 +40,12 @@
     "basscss": "^7.0.4",
     "fastclick": "^1.0.6",
     "history": "1.13.*",
-    "material-ui": "^0.14.0-rc2",
     "normalize.css": "^3.0.3",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "react-router": "^1.0.2",
+    "react-router": "^1.0.2"
+  },
+  "devDependencies": {
     "autoprefixer": "^6.1.2",
     "babel-cli": "^6.3.15",
     "babel-core": "^6.3.15",
@@ -66,6 +67,7 @@
     "extract-text-webpack-plugin": "^0.9.1",
     "glob": "^6.0.1",
     "html-webpack-plugin": "^1.7.0",
+    "img-loader": "^1.2.2",
     "isparta": "^4.0.0",
     "jsdom": "^7.2.0",
     "json-loader": "^0.5.4",
@@ -85,15 +87,11 @@
     "tape": "^4.2.2",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-hot-middleware": "^2.6.0",
-    "react-tap-event-plugin": "^0.2.1"
+    "webpack-hot-middleware": "^2.6.0"
   },
   "config": {
     "commitizen": {
       "path": "node_modules/rb-conventional-changelog"
     }
-  },
-  "devDependencies": {
-    "babel-preset-stage-0": "^6.3.13",
   }
 }

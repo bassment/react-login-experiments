@@ -40,6 +40,10 @@ module.exports = {
     }, {
       test: /\.css$/,
       loader: 'style!css?modules&&importLoaders=1&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
+    },
+    {
+      test: /\.(jpe?g|png|gif|svg)$/i,
+      loader: 'url?limit=10000!img?progressive=true'
     }]
   },
   _hotPort: 8000,
