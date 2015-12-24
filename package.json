@@ -85,11 +85,15 @@
     "tape": "^4.2.2",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-hot-middleware": "^2.6.0"
+    "webpack-hot-middleware": "^2.6.0",
+    "react-tap-event-plugin": "^0.2.1"
   },
   "config": {
     "commitizen": {
       "path": "node_modules/rb-conventional-changelog"
     }
+  },
+  "devDependencies": {
+    "babel-preset-stage-0": "^6.3.13",
   }
 }
