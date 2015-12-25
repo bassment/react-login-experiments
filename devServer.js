@@ -34,7 +34,7 @@ var transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
     user: 'anton.perebyinis@gmail.com',
-    pass: '250721BASS'
+    pass: process.env.GMAIL
   }
 });
 
@@ -49,14 +49,13 @@ app.route('/api/test')
   res.send('Hello')
 })
 .post(function (req, res) {
-  console.log(Object.keys(req.body)[0]);
-  // mailOptions.html = req.body
-  // transporter.sendMail(mailOptions, function(error, info) {
-  //     if (error) {
-  //       return console.log(error);
-  //     }
-  //     console.log('Message sent: ' + info.response);
-  //   });
+  mailOptions.html = Object.keys(req.body)[0]
+  transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        return console.log(error);
+      }
+      console.log('Message sent: ' + info.response);
+    });
 })
 
 app.get('*', function response(req, res) {
