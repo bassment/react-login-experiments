@@ -4,6 +4,8 @@ var webpack = require('webpack');
 var webpackMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var config = require('./webpack.config.dev');
+var nodemailer = require('nodemailer');
+var bodyParser = require('body-parser');
 
 var isDeveloping = process.env.NODE_ENV !== 'production';
 var port = isDeveloping ? 3000 : process.env.PORT;
@@ -25,11 +27,37 @@ var middleware = webpackMiddleware(compiler, {
 
 app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
-app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(__dirname + '/public'));
 
-app.get('api', function (req, res) {
-  res.send('API express route...');
+var transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'anton.perebyinis@gmail.com',
+    pass: '250721BASS'
+  }
 });
+
+var mailOptions = {
+  from: 'Anton Perebyinis <anton.perebyinis@gmail.com>',
+  to: 'anton.perebyinis@pixelant.se',
+  subject: 'Tests'
+};
+
+app.route('/api/test')
+.get(function (req, res) {
+  res.send('Hello')
+})
+.post(function (req, res) {
+  console.log(Object.keys(req.body)[0]);
+  // mailOptions.html = req.body
+  // transporter.sendMail(mailOptions, function(error, info) {
+  //     if (error) {
+  //       return console.log(error);
+  //     }
+  //     console.log('Message sent: ' + info.response);
+  //   });
+})
 
 app.get('*', function response(req, res) {
   res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')));

@@ -16,7 +16,7 @@ window.React = React;
 
 // createHashHistory only for GitHub pages
 // do prefer createBrowserHistory
-const history = createBrowserHistory();
+const history = createBrowserHistory({queryKey: false});
 
 ReactDOM.render(
   <Router

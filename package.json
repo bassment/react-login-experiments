@@ -5,7 +5,7 @@
   "scripts": {
     "test": "better-npm-run test",
     "test:cov": "better-npm-run test:cov",
-    "start": "node devServer",
+    "start": "nodemon devServer",
     "build:start": "better-npm-run build:start",
     "build": "rimraf dist && better-npm-run build",
     "lint": "eslint ."
@@ -38,9 +38,12 @@
   },
   "dependencies": {
     "basscss": "^7.0.4",
+    "body-parser": "^1.14.2",
     "fastclick": "^1.0.6",
     "history": "1.13.*",
+    "jquery": "^2.1.4",
     "material-ui": "^0.13.4",
+    "nodemailer": "^1.10.0",
     "normalize.css": "^3.0.3",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",

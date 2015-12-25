@@ -23,7 +23,7 @@ const Counter = React.createClass({
       <div className={style.counter}>
         <h1>Count: {count}</h1>
         <p>Click the button to increment the counter</p>
-        <RaisedButton label="Increment" onClick={this.increment} />
+        <RaisedButton label="Increment" onClick={this.increment}/>
       </div>
     );
   }
