@@ -5,6 +5,7 @@ var app = express();
 var port = 3000;
 var domain = 'pixelant.space';
 
+app.use(express.static(__dirname + '/dist'));
 app.use(express.static(__dirname + '/public'));
 
 app.get('api', function (req, res) {
