@@ -42,10 +42,6 @@ const Login = React.createClass({
             <RaisedButton style={{marginTop: 30}} label="Login!" onClick={this.handleLogin}/>
           </div>
         </Paper>
-        if(messages) {
-          <p>{messages}</p>
-        }
-
       </div>
     )
   }
