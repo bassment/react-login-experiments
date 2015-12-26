@@ -63,7 +63,7 @@ const AppLeftNav = React.createClass({
           value="/"
           primaryText="Home"/>
         <ListItem
-          value="tests"
+          value="/tests"
           primaryText="Tests"/>
       </SelectableList>
       <Divider/>

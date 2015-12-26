@@ -24,6 +24,5 @@ const history = createBrowserHistory({queryKey: false});
 ReactDOM.render(
   <Router
     children={routes}
-    history={history}
-    onUpdate={() => window.scrollTo(0, 0)}/>,
+    history={history}/>,
   document.getElementById('root'));
