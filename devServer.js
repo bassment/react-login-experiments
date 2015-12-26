@@ -6,6 +6,24 @@ var webpackHotMiddleware = require('webpack-hot-middleware');
 var config = require('./webpack.config.dev');
 var nodemailer = require('nodemailer');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose/');
+var flash = require('express-flash');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var MongoStore =  require('connect-mongo')(session);
+
+mongoose.connect('mongodb://localhost/Automate');
+
+var Schema = mongoose.Schema;
+var UserDetail = new Schema({
+      username: {type: String, unique: true, lowercase: true},
+      password: String
+    }, {
+      collection: 'userInfo'
+    });
+var UserDetails = mongoose.model('userInfo', UserDetail);
 
 var isDeveloping = process.env.NODE_ENV !== 'production';
 var port = isDeveloping ? 3000 : process.env.PORT;
@@ -25,10 +43,77 @@ var middleware = webpackMiddleware(compiler, {
   }
 });
 
+var sess = {
+  resave: true,
+  saveUninitialized: true,
+  // Use generic cookie name for security purposes
+  key: 'sessionId',
+  secret: '2106zx',
+  // Add HTTPOnly, Secure attributes on Session Cookie
+  // If secure is set, and you access your site over HTTP, the cookie will not be set
+  cookie: {
+    httpOnly: true,
+    secure: false
+  },
+  store: new MongoStore({url: 'mongodb://localhost/Automate', autoReconnect: true})
+};
+
 app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
+
+app.use(cookieParser());
+app.use(session(sess));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    process.nextTick(function() {
+      UserDetails.findOne({
+        'username': username
+      }, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+
+        if (!user) {
+          return done(null, false, {message: 'Username ' + username + ' not found'});
+        }
+
+        if (user.password != password) {
+          return done(null, false, {message: 'Invalid username or password'});
+        } else {
+          return done(null, user);
+        }
+      });
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+    console.log('serialize')
+    done(null, user.id);
+  });
+
+passport.deserializeUser(function(id, done) {
+  console.log('deserializeUser')
+  UserDetails.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -45,9 +130,6 @@ var mailOptions = {
 };
 
 app.route('/api/test')
-.get(function (req, res) {
-  res.send('Hello')
-})
 .post(function (req, res) {
   mailOptions.html = Object.keys(req.body)[0]
   transporter.sendMail(mailOptions, function(error, info) {
@@ -57,6 +139,33 @@ app.route('/api/test')
       console.log('Message sent: ' + info.response);
     });
 })
+
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', {
+    successRedirect: '/loginSuccess',
+    failureRedirect: '/loginFailure'
+  }, function(err, user, info) {
+    if (err) return next(err);
+
+    if (!user) {
+      req.flash('errors', {msg: info.message});
+    }
+    // Passport exposes a login() function on req (also aliased as logIn()) that can be used to establish a login session
+    req.logIn(user, function(err) {
+      if (err) return next(err);
+      req.flash('success', {msg: 'Success! You are logged in'});
+      res.end('Success');
+    });
+  })(req, res, next);
+});
+
+app.get('/loginFailure', function(req, res, next) {
+  res.send('Failed to authenticate');
+});
+
+app.get('/loginSuccess', function(req, res, next) {
+  res.send('Successfully authenticated');
+});
 
 app.get('*', function response(req, res) {
   res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')));
