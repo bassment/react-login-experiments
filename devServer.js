@@ -6,6 +6,7 @@ var webpackHotMiddleware = require('webpack-hot-middleware');
 var config = require('./webpack.config.dev');
 var nodemailer = require('nodemailer');
 var bodyParser = require('body-parser');
+var stormpath = require('express-stormpath');
 
 var isDeveloping = process.env.NODE_ENV !== 'production';
 var port = isDeveloping ? 3000 : process.env.PORT;
@@ -29,6 +30,13 @@ app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
+
+app.use(stormpath.init(app, {
+  website: true,
+  web: {
+    spaRoot: __dirname
+  }
+}));
 
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -63,10 +71,12 @@ app.get('*', function response(req, res) {
   res.end();
 });
 
-app.listen(config._hotPort, 'localhost', function(err) {
-  if (err) {
-    console.log(err);
-  }
+app.on('stormpath.ready', function () {
+  app.listen(config._hotPort, 'localhost', function(err) {
+    if (err) {
+      console.log(err);
+    }
 
-  console.info("==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.", config._hotPort, config._hotPort);
+    console.info("==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.", config._hotPort, config._hotPort);
+  });
 });

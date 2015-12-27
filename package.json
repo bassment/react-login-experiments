@@ -37,11 +37,15 @@
     }
   },
   "dependencies": {
+    "babel-preset-stage-0": "^6.3.13",
     "basscss": "^7.0.4",
     "body-parser": "^1.14.2",
+    "express-stormpath": "^2.3.4",
     "fastclick": "^1.0.6",
+    "flux": "^2.1.1",
     "history": "1.17.0",
     "jquery": "^2.1.4",
+    "keymirror": "^0.1.1",
     "material-ui": "^0.14.0",
     "nodemailer": "^1.10.0",
     "normalize.css": "^3.0.3",
@@ -49,6 +53,7 @@
     "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",
     "react-router": "^1.0.2",
+    "react-stormpath": "^0.3.0",
     "react-tap-event-plugin": "^0.2.1"
   },
   "devDependencies": {
