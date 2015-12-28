@@ -48,14 +48,14 @@ var sess = {
   saveUninitialized: true,
   // Use generic cookie name for security purposes
   key: 'sessionId',
-  secret: '2106zx',
+  secret: process.env.SECRET,
   // Add HTTPOnly, Secure attributes on Session Cookie
   // If secure is set, and you access your site over HTTP, the cookie will not be set
   cookie: {
     httpOnly: true,
     secure: false
   },
-  store: new MongoStore({url: 'mongodb://localhost/Automate', autoReconnect: true})
+  store: new MongoStore({url: process.env.MONGO_URL, autoReconnect: true})
 };
 
 app.use(middleware);
@@ -118,14 +118,14 @@ passport.deserializeUser(function(user, done) {
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'anton.perebyinis@gmail.com',
-    pass: '250721BASS'
+    user: process.env.GMAIL_USERNAME,
+    pass: process.env.GMAIL_PASSWORD
   }
 });
 
 var mailOptions = {
-  from: 'Anton Perebyinis <anton.perebyinis@gmail.com>',
-  to: 'anton.perebyinis@pixelant.se',
+  from: 'Jim Hendrig <jim.hendrix@gmail.com>',
+  to: 'jannis.joplin@gmail.com',
   subject: 'Tests'
 };
 
