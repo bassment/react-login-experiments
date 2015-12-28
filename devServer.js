@@ -41,14 +41,14 @@ app.use(stormpath.init(app, {
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'anton.perebyinis@gmail.com',
-    pass: '250721BASS'
+    user: process.env.GMAIL_USERNAME,
+    pass: process.env.GMAIL_PASSWORD
   }
 });
 
 var mailOptions = {
-  from: 'Anton Perebyinis <anton.perebyinis@gmail.com>',
-  to: 'anton.perebyinis@pixelant.se',
+  from: 'Jim Hendrig <jim.hendrix@gmail.com>',
+  to: 'jannis.joplin@gmail.com',
   subject: 'Tests'
 };
 
